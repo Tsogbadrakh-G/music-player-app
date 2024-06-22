@@ -9,12 +9,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('Music player'),
+            leading: const Icon(Icons.back_hand),
+          ),
+          body: SizedBox.expand(
+            child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: ((context, index) {
+                  return const ListTile(
+                    title: Text('data'),
+                  );
+                })),
+          )),
     );
   }
 }
