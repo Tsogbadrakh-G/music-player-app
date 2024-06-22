@@ -20,6 +20,7 @@ class MainApp extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: ((context, index) {
                   return const ListTile(
+                    leading: Text('-'),
                     title: Text('data'),
                   );
                 })),
