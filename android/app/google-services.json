@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "291201929859",
+    "project_id": "music-player-app-11a19",
+    "storage_bucket": "music-player-app-11a19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291201929859:android:85576ef445b4d5073501b6",
+        "android_client_info": {
+          "package_name": "com.example.somni_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeYdl8wyMmHPiIlvZ1RR1CZs8fd8cydEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

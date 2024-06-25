@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBNs4uWxKM4Dwd-xRY38xtlovjI5ppe-zM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>291201929859</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.somniApp</string>
+	<key>PROJECT_ID</key>
+	<string>music-player-app-11a19</string>
+	<key>STORAGE_BUCKET</key>
+	<string>music-player-app-11a19.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:291201929859:ios:2d85b956d15d267d3501b6</string>
+</dict>
+</plist>

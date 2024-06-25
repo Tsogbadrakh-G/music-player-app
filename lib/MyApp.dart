@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -6,7 +8,7 @@ AudioPlayer audioPlayer = AudioPlayer(playerId: 'my_unique_playerId');
 bool _isPlaying = false;
 var currentTime = "00:00";
 var completeTime = "00:00";
-var test;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
