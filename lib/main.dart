@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:somni_app/MyApp.dart';
 
 final AudioPlayer audioPlayer = AudioPlayer();
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
+  //runApp(const MainApp());
   initSongs();
   initFiles();
 }
