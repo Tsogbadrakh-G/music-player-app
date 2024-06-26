@@ -40,10 +40,14 @@ log('directory: ${directory.path}');
  for( var item in list.items){
 
   final url= await item.getDownloadURL();
-  final response = await dio.get(url, options: Options(responseType: ResponseType.bytes));
 
-  final path=  await   DownloadService.downloadCache(url: url, fileName:  item.fullPath.split('/')[1]);
-   File file = await File(path ?? '').writeAsBytes(response.data);
+
+
+final     response = await dio.get(url, options: Options(responseType: ResponseType.bytes));
+ log('response: ${response.data}');
+    final path=  await   DownloadService.downloadCache(url: url, fileName:  item.fullPath.split('/')[1]);
+  final bytes=  await File(path ?? '').readAsBytes();
+   File file = await File(path ?? '').writeAsBytes(bytes);
    cachedFiles.add(file);
  }
  isLoading=false;

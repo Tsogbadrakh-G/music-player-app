@@ -6,14 +6,14 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path_provider/path_provider.dart';
 
-enum DownloadFileType { video, image, audio, file }
+enum DownloadFileType {  image, audio, file }
 
 class DownloadService {
   // Tataj awch bui failuudiin progress link iig hadgalah
   static final RxMap<String, List<int>> _downloadProgresses = RxMap({});
 
   static Map<DownloadFileType, String> folders = {
-    DownloadFileType.video: 'videos',
+
     DownloadFileType.image: 'images',
     DownloadFileType.audio: 'audios',
     DownloadFileType.file: 'files',
@@ -23,7 +23,7 @@ class DownloadService {
     required String url,
     required String fileName,
     Function(int, int)? onProgress,
-    DownloadFileType? type = DownloadFileType.image,
+    DownloadFileType? type = DownloadFileType.audio,
   }) async {
     String? cachePath;
     try {
