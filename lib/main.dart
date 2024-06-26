@@ -1,21 +1,20 @@
-import 'dart:convert';
-import 'dart:developer';
+
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:somni_app/MyApp.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'firebase_options.dart'; 
 final AudioPlayer audioPlayer = AudioPlayer();
 Future<void> main() async {
    WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
-  runApp(const MyApp());
-  //runApp(const MainApp());
+  runApp( MyApp());
+  
   initSongs();
-  initFiles();
+  //initFiles();
+
 }
 
 initSongs() async {
@@ -23,27 +22,28 @@ initSongs() async {
       children: [AudioSource.asset('assets/sample.mp3')]));
 }
 
-initFiles() async {
-  List<String> files = [];
-  String manifestContent = await rootBundle.loadString('AssetManifest.json');
+// initFiles() async {
+//   List<String> files = [];
+//   String manifestContent = await rootBundle.loadString('AssetManifest.json');
 
-  final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-  // >> To get paths you need these 2 lines
+//   final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+//   // >> To get paths you need these 2 lines
 
-  final filePaths = manifestMap.keys
-      .where((String key) => key.contains('assets/'))
-      .where((String key) => key.contains('.mp3'))
-      .toList();
-  files = filePaths;
-  log('files: $files');
-  return files;
-}
+//   final filePaths = manifestMap.keys
+//       .where((String key) => key.contains('assets/'))
+//       .where((String key) => key.contains('.mp3'))
+//       .toList();
+//   files = filePaths;
+//   log('files: $files');
+//   return files;
+// }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
