@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class LimeShimmer extends StatelessWidget {
   final double height;
@@ -37,7 +35,7 @@ class LimeShimmer extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 121, 117, 117),
           borderRadius: BorderRadius.circular(
-            borderRadius ??10,
+            borderRadius ?? 10,
           ),
         ),
       ),
