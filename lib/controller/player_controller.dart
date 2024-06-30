@@ -12,20 +12,30 @@ class PlayerModel {
   final bool rebuild;
   final bool isPlaying;
   final List<Audio> cachedAudios;
-  PlayerModel(this.rebuild, this.isPlaying, this.cachedAudios);
+  final List<String> words;
+  PlayerModel(this.rebuild, this.isPlaying, this.cachedAudios, this.words);
 
-  PlayerModel copyWith({final rebuild, final isPlaying, final cachedAudios}) {
+  PlayerModel copyWith(
+      {final rebuild, final isPlaying, final cachedAudios, final words}) {
     return PlayerModel(rebuild ?? this.rebuild, isPlaying ?? this.isPlaying,
-        cachedAudios ?? this.cachedAudios);
+        cachedAudios ?? this.cachedAudios, words ?? this.words);
   }
 }
 
 class PlayerProvider extends StateNotifier<PlayerModel> {
   AudioPlayer player = AudioPlayer();
-  PlayerProvider() : super(PlayerModel(false, false, []));
-
+  PlayerProvider() : super(PlayerModel(false, false, [], []));
+  int selectedIndex = 0;
   void rebuild() {
     state = state.copyWith(rebuild: !state.rebuild);
+  }
+
+  void handlSelectedIndex(int val) {
+    selectedIndex = val;
+  }
+
+  void setWords(List<String> words) {
+    state = state.copyWith(words: words);
   }
 
   Future<void> setSource(List<Audio> audios) async {
@@ -50,12 +60,6 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
       return "$minutes:$seconds";
   }
 
-  formatDuration(Duration duration) {
-    final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inMinutes.remainder(60);
-    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
-  }
-
   void handlePlayingPause() {
     if (player.playing) {
       player.pause();
@@ -64,11 +68,19 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
       player.play();
       state = state.copyWith(isPlaying: true);
     }
-    //setState(() {});
   }
 
   Future<void> handleSeek(double val) async {
     await player.seek(Duration(seconds: val.toInt()));
+  }
+
+  void handleIsPlaying(bool val) {
+    state = state.copyWith(isPlaying: false);
+    if (val) {
+      player.play();
+    } else {
+      player.stop();
+    }
   }
 
   PlayerModel get model => state;

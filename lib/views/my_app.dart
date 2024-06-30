@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:somni_app/controller/network_controller.dart';
 import 'package:somni_app/controller/player_controller.dart';
+import 'package:somni_app/views/search_screen.dart';
 import 'package:somni_app/views/shimmer.dart';
 import 'package:somni_app/views/song_list_item.dart';
 
@@ -27,9 +28,24 @@ class _MyApp extends ConsumerState<MyApp> {
     return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 95, 95, 96),
-          title: const Text("Sangeet"),
+          backgroundColor: const Color.fromARGB(255, 95, 95, 96),
+          title: const Text(
+            "Тэнгэрийн уудам тал",
+            overflow: TextOverflow.ellipsis,
+          ),
           leading: const Icon(Icons.music_note),
+          actions: [
+            IconButton(
+              onPressed: () => Get.to(
+                () => const SearchScreen(),
+                duration: const Duration(milliseconds: 700),
+                transition: Transition.rightToLeft,
+              ),
+              icon: const Icon(
+                Icons.search_rounded,
+              ),
+            ),
+          ],
         ),
         body: SizedBox.expand(
             child: controllerState.cachedAudios.isEmpty
@@ -44,12 +60,12 @@ class _MyApp extends ConsumerState<MyApp> {
                             index: index,
                           ));
                     })),
-        bottomNavigationBar: BottomAppBar(
-          color: Color.fromARGB(255, 95, 95, 96),
-          child: Container(
-            height: 50,
-          ),
-        ),
+        // bottomNavigationBar: BottomAppBar(
+        //   color: const Color.fromARGB(255, 95, 95, 96),
+        //   child: Container(
+        //     height: 50,
+        //   ),
+        // ),
       ),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),

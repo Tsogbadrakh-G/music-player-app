@@ -8,6 +8,7 @@ import 'utils/firebase_options.dart';
 import 'package:hive/hive.dart';
 
 late Box<Audio> cachedUrlsBox;
+late Box<String> wordsOfMusicsBox;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -20,6 +21,7 @@ Future<void> main() async {
     ..registerAdapter(AudioAdapter());
 
   cachedUrlsBox = await Hive.openBox('cachedPaths');
+  wordsOfMusicsBox = await Hive.openBox('musicWords');
 
   runApp(const ProviderScope(child: MyApp()));
 }

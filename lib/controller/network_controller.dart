@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:somni_app/controller/download_cache.dart';
 import 'package:somni_app/controller/player_controller.dart';
 import 'package:somni_app/main.dart';
 import 'package:somni_app/model/model.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 final networkProvider =
     StateNotifierProvider<NetworkProvider, List<ConnectivityResult>>((ref) {
@@ -73,10 +75,11 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     log('getLocalCache is called');
 
     List<Audio> cachedAudios = cachedUrlsBox.values.toList();
-    ref.read(playerProvider.notifier).setSource(cachedAudios);
-    log('local paths len: ${cachedAudios.length}');
+    List<String> wordsOfMusics = wordsOfMusicsBox.values.toList();
 
-    log('local paths len: ${cachedAudios.length}');
+    log('words: ${wordsOfMusics}');
+    ref.read(playerProvider.notifier).setSource(cachedAudios);
+    ref.read(playerProvider.notifier).setWords(wordsOfMusics);
   }
 
   getFirebaseStorage() async {
@@ -84,9 +87,18 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     log('getFirebaseStorage is called');
 
     cachedUrlsBox.clear();
+    wordsOfMusicsBox.clear();
+    List<Audio> cachedAudios = [];
+    List<String> words = [];
     final storageRef = FirebaseStorage.instance.ref('audios/');
     final list = await storageRef.list();
-    List<Audio> cachedAudios = [];
+
+    final firebaseApp = Firebase.app();
+    final rtdb = FirebaseDatabase.instanceFor(
+        app: firebaseApp,
+        databaseURL:
+            'https://music-player-app-11a19-default-rtdb.asia-southeast1.firebasedatabase.app/');
+
     log('list: ${list.items.length}');
 
     int index = 0;
@@ -99,13 +111,20 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
       cachedAudios.add(Audio(id: index, name: fileName, path: path ?? ''));
       cachedUrlsBox.put(index, cachedAudios.last);
 
+      final snapshot = await rtdb.ref().child('1').get();
+
+      if (snapshot.exists) {
+        words.add(snapshot.value.toString());
+      } else {
+        words.add('No words');
+      }
+      wordsOfMusicsBox.put(1, words.last);
+
       index++;
     }
-    log('cached files: ${cachedAudios}');
-    log('local box val: ${cachedUrlsBox.values}');
 
+    log('local box val: ${wordsOfMusicsBox.values}');
+    ref.read(playerProvider.notifier).setWords(words);
     ref.read(playerProvider.notifier).setSource(cachedAudios);
   }
-
-//  void setSources
 }
