@@ -27,7 +27,7 @@ class SongListItem extends ConsumerWidget {
             Get.to(const SongWordScreen());
           },
           icon: const Icon(
-            Icons.messenger_outline,
+            Icons.edit_note,
             color: Colors.white,
           )),
     );

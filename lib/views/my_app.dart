@@ -8,21 +8,12 @@ import 'package:somni_app/views/search_screen.dart';
 import 'package:somni_app/views/shimmer.dart';
 import 'package:somni_app/views/song_list_item.dart';
 
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  _MyApp createState() => _MyApp();
-}
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
-class _MyApp extends ConsumerState<MyApp> {
   @override
-  initState() {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.read(networkProvider.notifier).initConnectivity();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final controllerState = ref.watch(playerProvider);
 
     return GetMaterialApp(
@@ -49,8 +40,13 @@ class _MyApp extends ConsumerState<MyApp> {
         ),
         body: SizedBox.expand(
             child: controllerState.cachedAudios.isEmpty
-                ? const LimeShimmer(width: 40, height: 20)
-                : ListView.builder(
+                ? const ShimmerList()
+                : ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
                     itemCount: controllerState.cachedAudios.length,
                     itemBuilder: (context, index) {
                       return Card(
@@ -60,22 +56,9 @@ class _MyApp extends ConsumerState<MyApp> {
                             index: index,
                           ));
                     })),
-        // bottomNavigationBar: BottomAppBar(
-        //   color: const Color.fromARGB(255, 95, 95, 96),
-        //   child: Container(
-        //     height: 50,
-        //   ),
-        // ),
       ),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
     );
-  }
-
-  @override
-  void dispose() {
-    ref.read(networkProvider);
-    // _connectivitySubscription.cancel();
-    super.dispose();
   }
 }

@@ -75,7 +75,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       ),
       body: _result.isEmpty
           ? const Center(
-              child: Text("No songs!!!"),
+              child: Text("Үр дүн илэрсэнгүй!!!"),
             )
           : _buildSongList(),
     );

@@ -22,18 +22,11 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
   NetworkProvider(this.ref) : super([ConnectivityResult.none]);
 
   final Connectivity connectivity = Connectivity();
-
   Dio dio = Dio();
 
   late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
   bool isInternetCalled = false;
   bool isLocalCalled = false;
-
-  // final _playerProvider = Provider((ref) {
-  //   // Use ref.read to get the current value of counterProvider
-  //   final playerProvider1 = ref.read(playerProvider.notifier);
-  //   return playerProvider1;
-  // });
 
   Future<void> initConnectivity() async {
     connectivitySubscription =
@@ -77,7 +70,6 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     List<Audio> cachedAudios = cachedUrlsBox.values.toList();
     List<String> wordsOfMusics = wordsOfMusicsBox.values.toList();
 
-    log('words: ${wordsOfMusics}');
     ref.read(playerProvider.notifier).setSource(cachedAudios);
     ref.read(playerProvider.notifier).setWords(wordsOfMusics);
   }
@@ -98,8 +90,6 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
         app: firebaseApp,
         databaseURL:
             'https://music-player-app-11a19-default-rtdb.asia-southeast1.firebasedatabase.app/');
-
-    log('list: ${list.items.length}');
 
     int index = 0;
     for (var item in list.items) {
@@ -123,7 +113,6 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
       index++;
     }
 
-    log('local box val: ${wordsOfMusicsBox.values}');
     ref.read(playerProvider.notifier).setWords(words);
     ref.read(playerProvider.notifier).setSource(cachedAudios);
   }

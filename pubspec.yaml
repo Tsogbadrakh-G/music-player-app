@@ -22,6 +22,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   just_audio: ^0.9.38
   path_provider: ^2.1.3
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
