@@ -3,6 +3,9 @@ PODS:
     - Flutter
   - audioplayers_darwin (0.0.1):
     - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - Firebase/CoreOnly (10.27.0):
     - FirebaseCore (= 10.27.0)
   - Firebase/Storage (10.27.0):
@@ -55,6 +58,7 @@ PODS:
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
@@ -80,6 +84,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/audio_session/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_storage:
@@ -96,6 +102,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
   firebase_core: f8d0424c45e0f1e596811085fc12c638d628457c
   firebase_storage: de4465c9b82d29883c2a32b5b0210bf5f2a0cfa9
