@@ -93,6 +93,7 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
 
     int index = 0;
     for (var item in list.items) {
+      log('index: $index');
       String fileName = item.fullPath.split('/')[1];
       final url = await item.getDownloadURL();
       final path =
