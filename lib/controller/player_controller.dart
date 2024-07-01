@@ -42,7 +42,7 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
     state = state.copyWith(cachedAudios: audios);
     await player.setAudioSource(ConcatenatingAudioSource(
         children: audios
-            .map((audio) => AudioSource.uri(Uri.parse(audio.path)))
+            .map((audio) => AudioSource.file(audio.path))
             .toList()));
   }
 
