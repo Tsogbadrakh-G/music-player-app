@@ -33,13 +33,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/icon/
     - "assets/icon/app_logo.png"
-    
+    - "assets/icon/music_logo.jpg"
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/app_logo.png"
+  image_path: "assets/icon/music_logo.jpg"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true

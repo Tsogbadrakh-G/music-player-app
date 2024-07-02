@@ -18,12 +18,14 @@ class MyApp extends ConsumerWidget {
     ref.read(networkProvider.notifier).initConnectivity();
     final controllerState = ref.watch(playerProvider);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool val) {},
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 95, 95, 96),
           title: const Text(
-            
-           "Уудам тал",
+            "Уудам тал",
             overflow: TextOverflow.ellipsis,
           ),
           leading: const Icon(Icons.music_note),
@@ -42,8 +44,8 @@ class MyApp extends ConsumerWidget {
         ),
         body: SizedBox.expand(
             child: Stack(
-              children:[ 
-                 Container(
+          children: [
+            Container(
               constraints: const BoxConstraints.expand(),
               height: 300.0,
               width: 300.0,
@@ -60,29 +62,30 @@ class MyApp extends ConsumerWidget {
                 ),
               ),
             ),
-                controllerState.cachedAudios.isEmpty
-                  ? const ShimmerList()
-                  : ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: 8);
-                      },
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 16),
-                      itemCount: controllerState.cachedAudios.length,
-                      itemBuilder: (context, index) {
-                        return Card(
+            controllerState.cachedAudios.isEmpty
+                ? const ShimmerList()
+                : ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    itemCount: controllerState.cachedAudios.length,
+                    itemBuilder: (context, index) {
+                      return Card(
                           surfaceTintColor: Colors.green,
-                            shadowColor: Colors.lightBlue,
-                            elevation: 3,
-                            child: SongListItem(
-                              index: index,
-                            ));
-                      }),
-              ],
-            )),
-      
-      // debugShowCheckedModeBanner: false,
-      // theme: ThemeData.dark(),
+                          shadowColor: Colors.lightBlue,
+                          elevation: 3,
+                          child: SongListItem(
+                            index: index,
+                          ));
+                    }),
+          ],
+        )),
+
+        // debugShowCheckedModeBanner: false,
+        // theme: ThemeData.dark(),
+      ),
     );
   }
 }

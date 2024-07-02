@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:somni_app/views/my_app.dart';
@@ -17,19 +16,12 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/icon/app_logo.png',
+                'assets/icon/music_logo.jpg',
                 fit: BoxFit.cover,
               ),
               const SizedBox(
                 height: 10,
               ),
-              // Text(
-              //   "mono",
-              //   style: TextStyle(
-              //       decoration: TextDecoration.none,
-              //       fontSize: 32.0,
-              //       color: Colors.black54),
-              // ),
             ],
           ),
         ),
@@ -40,7 +32,6 @@ class SplashScreen extends StatelessWidget {
   Future callDelay(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 3000), () {});
 
-    Get.to(const MyApp(
-    ));
+    Get.to(const MyApp());
   }
 }

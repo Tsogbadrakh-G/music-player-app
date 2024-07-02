@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -80,19 +81,23 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     final storageRef = FirebaseStorage.instance.ref('audios/');
     final list = await storageRef.list();
 
-    // if(list.items.length==cachedUrlsBox.values.length)
-    // {
-      
-    //   getLocalCache();
-    //    return;
-    // }
+    if (list.items.length == cachedUrlsBox.values.length) {
+      int existsLen = 0;
+      for (Audio audio in cachedUrlsBox.values) {
+        if ((await File(audio.path).exists())) {
+          existsLen++;
+        }
+      }
+      if (existsLen == cachedUrlsBox.values.length) {
+        getLocalCache();
+        return;
+      }
+    }
 
     cachedUrlsBox.clear();
     wordsOfMusicsBox.clear();
     List<Audio> cachedAudios = [];
     List<String> words = [];
-   
-
 
     final firebaseApp = Firebase.app();
     final rtdb = FirebaseDatabase.instanceFor(
