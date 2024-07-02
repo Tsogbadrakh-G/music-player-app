@@ -77,13 +77,17 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
   getFirebaseStorage() async {
     isInternetCalled = true;
     log('getFirebaseStorage is called');
+    final storageRef = FirebaseStorage.instance.ref('audios/');
+    final list = await storageRef.list();
+
+    if(list.items.length==cachedUrlsBox.values.length) return;
 
     cachedUrlsBox.clear();
     wordsOfMusicsBox.clear();
     List<Audio> cachedAudios = [];
     List<String> words = [];
-    final storageRef = FirebaseStorage.instance.ref('audios/');
-    final list = await storageRef.list();
+   
+
 
     final firebaseApp = Firebase.app();
     final rtdb = FirebaseDatabase.instanceFor(
@@ -93,6 +97,7 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
 
     int index = 0;
     for (var item in list.items) {
+      log('index: $index');
       String fileName = item.fullPath.split('/')[1];
       final url = await item.getDownloadURL();
       final path =

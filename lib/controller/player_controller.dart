@@ -39,11 +39,13 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
   }
 
   Future<void> setSource(List<Audio> audios) async {
-    state = state.copyWith(cachedAudios: audios);
+    
+
     await player.setAudioSource(ConcatenatingAudioSource(
         children: audios
             .map((audio) => AudioSource.file(audio.path))
             .toList()));
+     state = state.copyWith(cachedAudios: audios);
   }
 
   formatPosition(Duration duration) {
