@@ -80,13 +80,12 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     final storageRef = FirebaseStorage.instance.ref('audios/');
     final list = await storageRef.list();
 
-    if(list.items.length==cachedUrlsBox.values.length)
-    
-    {
+    // if(list.items.length==cachedUrlsBox.values.length)
+    // {
       
-      getLocalCache();
-       return;
-    }
+    //   getLocalCache();
+    //    return;
+    // }
 
     cachedUrlsBox.clear();
     wordsOfMusicsBox.clear();
