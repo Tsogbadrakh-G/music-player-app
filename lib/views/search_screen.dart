@@ -93,7 +93,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         physics: const BouncingScrollPhysics(),
         itemCount: _result.length,
         itemBuilder: (context, index) {
-          return SongListItem(index: _result[index].id);
+         return Card(
+                          shadowColor: Colors.lightBlue,
+                          elevation: 3,
+                          child: SongListItem(
+                            index:  _result[index].id,
+                          ));
+          
         });
   }
 }

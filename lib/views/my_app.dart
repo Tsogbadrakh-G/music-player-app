@@ -1,4 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
@@ -21,7 +23,7 @@ class MyApp extends ConsumerWidget {
           backgroundColor: const Color.fromARGB(255, 95, 95, 96),
           title: const Text(
             'test',
-         //   "Тэнгэрийн уудам тал",
+         //   "Уудам тал",
             overflow: TextOverflow.ellipsis,
           ),
           leading: const Icon(Icons.music_note),
@@ -39,23 +41,45 @@ class MyApp extends ConsumerWidget {
           ],
         ),
         body: SizedBox.expand(
-            child: controllerState.cachedAudios.isEmpty
-                ? const ShimmerList()
-                : ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 8);
-                    },
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
-                    itemCount: controllerState.cachedAudios.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                          shadowColor: Colors.lightBlue,
-                          elevation: 3,
-                          child: SongListItem(
-                            index: index,
-                          ));
-                    })),
+            child: Stack(
+              children:[ 
+                 Container(
+              constraints: const BoxConstraints.expand(),
+              height: 300.0,
+              width: 300.0,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/cover.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                child: Container(
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              ),
+            ),
+                controllerState.cachedAudios.isEmpty
+                  ? const ShimmerList()
+                  : ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 8);
+                      },
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 16),
+                      itemCount: controllerState.cachedAudios.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          surfaceTintColor: Colors.green,
+                            shadowColor: Colors.lightBlue,
+                            elevation: 3,
+                            child: SongListItem(
+                              index: index,
+                            ));
+                      }),
+              ],
+            )),
       
       // debugShowCheckedModeBanner: false,
       // theme: ThemeData.dark(),
