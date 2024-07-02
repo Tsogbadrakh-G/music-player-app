@@ -53,10 +53,10 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     log('Connectivity changed: $result');
     if (result[0] == ConnectivityResult.none) {
-      log('1');
+      log('- no internet');
       if (!isLocalCalled) getLocalCache();
     } else {
-      log('2');
+      log('- with internet');
       if (!isInternetCalled) getFirebaseStorage();
       isLocalCalled = false;
     }
@@ -80,7 +80,13 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     final storageRef = FirebaseStorage.instance.ref('audios/');
     final list = await storageRef.list();
 
-    if(list.items.length==cachedUrlsBox.values.length) return;
+    if(list.items.length==cachedUrlsBox.values.length)
+    
+    {
+      
+      getLocalCache();
+       return;
+    }
 
     cachedUrlsBox.clear();
     wordsOfMusicsBox.clear();

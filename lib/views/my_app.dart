@@ -22,8 +22,8 @@ class MyApp extends ConsumerWidget {
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 95, 95, 96),
           title: const Text(
-            'test',
-         //   "Уудам тал",
+            
+           "Уудам тал",
             overflow: TextOverflow.ellipsis,
           ),
           leading: const Icon(Icons.music_note),

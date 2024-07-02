@@ -39,7 +39,8 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
   }
 
   Future<void> setSource(List<Audio> audios) async {
-    
+    print('set source has started');
+    audios.forEach((element) {print('path: ${element.path}'); });
 
     await player.setAudioSource(ConcatenatingAudioSource(
         children: audios
