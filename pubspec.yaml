@@ -16,7 +16,7 @@ dependencies:
   firebase_storage: ^12.1.0
   flutter:
     sdk: flutter
-  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
   flutter_riverpod: ^2.5.1
   get: ^4.6.6
   hive: ^2.2.3
@@ -34,3 +34,23 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - "assets/icon/app_logo.png"
+    
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app_logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "path/to/image.png"

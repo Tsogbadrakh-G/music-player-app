@@ -16,8 +16,7 @@ class MyApp extends ConsumerWidget {
     ref.read(networkProvider.notifier).initConnectivity();
     final controllerState = ref.watch(playerProvider);
 
-    return GetMaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 95, 95, 96),
           title: const Text(
@@ -57,9 +56,9 @@ class MyApp extends ConsumerWidget {
                             index: index,
                           ));
                     })),
-      ),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      
+      // debugShowCheckedModeBanner: false,
+      // theme: ThemeData.dark(),
     );
   }
 }

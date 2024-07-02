@@ -51,7 +51,7 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
   }
 
   Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
-    log('Connectivity changed: ${result}');
+    log('Connectivity changed: $result');
     if (result[0] == ConnectivityResult.none) {
       log('1');
       if (!isLocalCalled) getLocalCache();

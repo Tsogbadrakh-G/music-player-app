@@ -206,7 +206,9 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
                           child: Center(
                             child: Icon(playerState.isPlaying
                                 ? Icons.pause
-                                : Icons.play_arrow),
+                                : Icons.play_arrow,
+                                color: Colors.white,
+                                ),
                           ),
                         ),
                       );
