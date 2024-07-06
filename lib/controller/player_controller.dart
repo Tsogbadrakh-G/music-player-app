@@ -13,25 +13,37 @@ class PlayerModel {
   final bool isPlaying;
   final List<Audio> cachedAudios;
   final List<String> words;
-  PlayerModel(this.rebuild, this.isPlaying, this.cachedAudios, this.words);
+  final int selectedIndex;
+  PlayerModel(this.rebuild, this.isPlaying, this.cachedAudios, this.words,
+      this.selectedIndex);
 
   PlayerModel copyWith(
-      {final rebuild, final isPlaying, final cachedAudios, final words}) {
-    return PlayerModel(rebuild ?? this.rebuild, isPlaying ?? this.isPlaying,
-        cachedAudios ?? this.cachedAudios, words ?? this.words);
+      {final rebuild,
+      final isPlaying,
+      final cachedAudios,
+      final words,
+      final selectedIndex}) {
+    return PlayerModel(
+      rebuild ?? this.rebuild,
+      isPlaying ?? this.isPlaying,
+      cachedAudios ?? this.cachedAudios,
+      words ?? this.words,
+      selectedIndex ?? this.selectedIndex,
+    );
   }
 }
 
 class PlayerProvider extends StateNotifier<PlayerModel> {
   AudioPlayer player = AudioPlayer();
-  PlayerProvider() : super(PlayerModel(false, false, [], []));
-  int selectedIndex = 0;
+  PlayerProvider() : super(PlayerModel(false, false, [], [], 0));
+
   void rebuild() {
     state = state.copyWith(rebuild: !state.rebuild);
   }
 
   void handlSelectedIndex(int val) {
-    selectedIndex = val;
+    state = state.copyWith(selectedIndex: val);
+    //selectedIndex = val;
   }
 
   void setWords(List<String> words) {
@@ -40,13 +52,14 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
 
   Future<void> setSource(List<Audio> audios) async {
     print('set source has started');
-    audios.forEach((element) {print('path: ${element.path}'); });
+    audios.forEach((element) {
+      print('path: ${element.path}');
+    });
 
     await player.setAudioSource(ConcatenatingAudioSource(
-        children: audios
-            .map((audio) => AudioSource.file(audio.path))
-            .toList()));
-     state = state.copyWith(cachedAudios: audios);
+        children:
+            audios.map((audio) => AudioSource.file(audio.path)).toList()));
+    state = state.copyWith(cachedAudios: audios);
   }
 
   formatPosition(Duration duration) {
@@ -71,6 +84,10 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
       player.play();
       state = state.copyWith(isPlaying: true);
     }
+  }
+
+  void setPlayerState(bool playerState) {
+    state = state.copyWith(isPlaying: playerState);
   }
 
   Future<void> handleSeek(double val) async {

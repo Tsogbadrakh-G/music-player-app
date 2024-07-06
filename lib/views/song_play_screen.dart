@@ -1,4 +1,3 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
 import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
@@ -40,7 +39,7 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
         position = Duration.zero;
         playerController?.player.pause();
         playerController?.player
-            .seek(position, index: playerController?.selectedIndex ?? 0);
+            .seek(position, index: playerController?.model.selectedIndex ?? 0);
         playerController?.rebuild();
       }
       playerController?.rebuild();
@@ -64,6 +63,8 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
   @override
   Widget build(BuildContext context) {
     playerController = ref.read(playerProvider.notifier);
+
+    ref.watch(playerProvider);
     return PopScope(
       onPopInvoked: (didPop) {
         if (didPop) {
@@ -109,7 +110,8 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
                 Text(
                   playerController
                           ?.model
-                          .cachedAudios[playerController?.selectedIndex ?? 0]
+                          .cachedAudios[
+                              playerController?.model.selectedIndex ?? 0]
                           .name
                           .split('.')[0] ??
                       '',
@@ -169,16 +171,22 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
                       height: 50.0,
                       child: InkWell(
                         onTap: () async {
-                          if ((playerController?.selectedIndex ?? 0) > 0) {
+                          if ((playerController?.model.selectedIndex ?? 0) >
+                              0) {
                             position = Duration.zero;
+                            // await playerController?.player.pause();
+                            // playerController?.setPlayerState(false);
                             await playerController?.player.seek(Duration.zero,
-                                index:
-                                    (playerController?.selectedIndex ?? 1) - 1);
+                                index: (playerController?.model.selectedIndex ??
+                                        1) -
+                                    1);
                             duration = playerController?.player.duration ??
                                 Duration.zero;
                             playerController?.handlSelectedIndex(
-                                (playerController?.selectedIndex ?? 1) - 1);
-                            setState(() {});
+                                (playerController?.model.selectedIndex ?? 1) -
+                                    1);
+                            // await playerController?.player.play();
+                            // playerController?.setPlayerState(true);
                           }
                         },
                         child: const Center(
@@ -204,11 +212,12 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
                         child: InkWell(
                           onTap: playerController?.handlePlayingPause,
                           child: Center(
-                            child: Icon(playerState.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                                color: Colors.white,
-                                ),
+                            child: Icon(
+                              playerState.isPlaying
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       );
@@ -223,19 +232,21 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
                       height: 50.0,
                       child: InkWell(
                         onTap: () async {
-                          if ((playerController?.selectedIndex ?? 0) + 1 <
+                          if ((playerController?.model.selectedIndex ?? 0) + 1 <
                               (playerController?.model.cachedAudios ?? [])
                                   .length) {
                             position = Duration.zero;
+                            // await playerController?.player.pause();
+                            // playerController?.setPlayerState(false);
                             await playerController?.player.seek(Duration.zero,
-                                index:
-                                    (playerController?.selectedIndex ?? 0) + 1);
+                                index: (playerController?.model.selectedIndex ??
+                                        0) +
+                                    1);
                             duration = playerController?.player.duration ??
                                 Duration.zero;
                             playerController?.handlSelectedIndex(
-                                (playerController?.selectedIndex ?? 0) + 1);
-
-                            setState(() {});
+                                (playerController?.model.selectedIndex ?? 0) +
+                                    1);
                           }
                         },
                         child: const Center(
