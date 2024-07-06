@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -115,12 +117,20 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
 
       cachedAudios.add(Audio(id: index, name: fileName, path: path ?? ''));
       cachedUrlsBox.put(index, cachedAudios.last);
-
-      final snapshot = await rtdb.ref().child('1').get();
+      DataSnapshot? snapshot;
+      if (index == 0)
+        snapshot = await rtdb.ref().child('0').get();
+      else if (index == 1)
+        snapshot = await rtdb.ref().child('1').get();
+      else {
+        snapshot = await rtdb.ref().child('0').get();
+      }
 
       if (snapshot.exists) {
+        log('words: ${snapshot.value.toString()}');
         words.add(snapshot.value.toString());
       } else {
+        log('no words');
         words.add('No words');
       }
       wordsOfMusicsBox.put(1, words.last);

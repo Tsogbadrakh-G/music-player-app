@@ -40,13 +40,14 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
 
   Future<void> setSource(List<Audio> audios) async {
     print('set source has started');
-    audios.forEach((element) {print('path: ${element.path}'); });
+    audios.forEach((element) {
+      print('path: ${element.path}');
+    });
 
     await player.setAudioSource(ConcatenatingAudioSource(
-        children: audios
-            .map((audio) => AudioSource.file(audio.path))
-            .toList()));
-     state = state.copyWith(cachedAudios: audios);
+        children:
+            audios.map((audio) => AudioSource.file(audio.path)).toList()));
+    state = state.copyWith(cachedAudios: audios);
   }
 
   formatPosition(Duration duration) {
@@ -71,6 +72,10 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
       player.play();
       state = state.copyWith(isPlaying: true);
     }
+  }
+
+  void setPlayerState(bool playerState) {
+    state = state.copyWith(isPlaying: playerState);
   }
 
   Future<void> handleSeek(double val) async {

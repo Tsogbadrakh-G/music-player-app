@@ -34,8 +34,11 @@ class SongWordScreen extends ConsumerWidget {
       ),
       body: SafeArea(
           child: SizedBox(
-        child: Text(formatString(
-            playerController.model.words[playerController.selectedIndex])),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(formatString(
+              playerController.model.words[playerController.selectedIndex])),
+        ),
       )),
     );
   }
