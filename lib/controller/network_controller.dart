@@ -127,10 +127,10 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
       }
 
       if (snapshot.exists) {
-        log('words: ${snapshot.value.toString()}');
+        //  log('words: ${snapshot.value.toString()}');
         words.add(snapshot.value.toString());
       } else {
-        log('no words');
+        // log('no words');
         words.add('No words');
       }
       wordsOfMusicsBox.put(1, words.last);

@@ -14,9 +14,18 @@ class SongListItem extends ConsumerWidget {
     final playerController = ref.read(playerProvider.notifier);
 
     return ListTile(
-      leading: const Icon(Icons.album, size: 20,),
-      title: Text(playerController.model.cachedAudios[index].name,style: const TextStyle(fontSize: 14),),
-      subtitle: const Text("#",style: TextStyle(fontSize: 12),),
+      leading: const Icon(
+        Icons.album,
+        size: 20,
+      ),
+      title: Text(
+        playerController.model.cachedAudios[index].name.split('.')[0],
+        style: const TextStyle(fontSize: 14),
+      ),
+      subtitle: const Text(
+        "#",
+        style: TextStyle(fontSize: 12),
+      ),
       onTap: () async {
         playerController.handlSelectedIndex(index);
         await playerController.player.seek(Duration.zero, index: index);
@@ -24,6 +33,7 @@ class SongListItem extends ConsumerWidget {
       },
       trailing: IconButton(
           onPressed: () {
+            playerController.handlSelectedIndex(index);
             Get.to(const SongWordScreen());
           },
           icon: const Icon(
