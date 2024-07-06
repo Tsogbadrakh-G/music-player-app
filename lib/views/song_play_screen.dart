@@ -46,18 +46,7 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
       return;
     });
 
-    // _playerStream = playerController?.player.playerStateStream.listen((state) {
-    //   log('playStream: $state');
 
-    //   if (state.processingState == ProcessingState.completed) {
-    //     playerController?.handleIsPlaying(false);
-    //     position = Duration.zero;
-    //     playerController?.player.pause();
-    //     playerController?.player
-    //         .seek(position, index: playerController?.selectedIndex ?? 0);
-    //     playerController?.rebuild();
-    //   }
-    // });
   }
 
   @override

@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.somniApp</string>
+	<string>com.example.somniApp1</string>
 	<key>PROJECT_ID</key>
 	<string>music-player-app-11a19</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:291201929859:ios:2d85b956d15d267d3501b6</string>
+	<string>1:291201929859:ios:bc7ce0c8995d3a683501b6</string>
+	<key>DATABASE_URL</key>
+	<string>https://music-player-app-11a19-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

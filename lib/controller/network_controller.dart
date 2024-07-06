@@ -118,13 +118,9 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
       cachedAudios.add(Audio(id: index, name: fileName, path: path ?? ''));
       cachedUrlsBox.put(index, cachedAudios.last);
       DataSnapshot? snapshot;
-      if (index == 0)
-        snapshot = await rtdb.ref().child('0').get();
-      else if (index == 1)
-        snapshot = await rtdb.ref().child('1').get();
-      else {
-        snapshot = await rtdb.ref().child('0').get();
-      }
+      
+        snapshot = await rtdb.ref().child('$index').get();
+      
 
       if (snapshot.exists) {
         //  log('words: ${snapshot.value.toString()}');
