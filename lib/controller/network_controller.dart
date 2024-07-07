@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:somni_app/controller/download_cache.dart';
 import 'package:somni_app/controller/player_controller.dart';
 import 'package:somni_app/main.dart';
@@ -16,13 +17,33 @@ import 'package:somni_app/model/model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 final networkProvider =
-    StateNotifierProvider<NetworkProvider, List<ConnectivityResult>>((ref) {
+    StateNotifierProvider<NetworkProvider, NetworkState>((ref) {
   return NetworkProvider(ref);
 });
+class NetworkState {
 
-class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
+  final bool isLoaded;
+  final List<Audio> cachedAudios;
+ final List<ConnectivityResult> connectivityResult;
+  NetworkState(this.isLoaded, this.cachedAudios, this.connectivityResult);
+
+  NetworkState copyWith(
+      {
+      final isLoaded,
+      final cachedAudios,
+       final connectivityResult,     
+      }) {
+    return NetworkState(
+      
+      isLoaded?? this.isLoaded,
+      cachedAudios ?? this.cachedAudios,
+      connectivityResult ?? this.connectivityResult
+    );
+  }
+}
+class NetworkProvider extends StateNotifier<NetworkState> {
   final Ref ref;
-  NetworkProvider(this.ref) : super([ConnectivityResult.none]);
+  NetworkProvider(this.ref) : super(NetworkState(false, [], [ConnectivityResult.none]));
 
   final Connectivity connectivity = Connectivity();
   Dio dio = Dio();
@@ -30,6 +51,7 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
   late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
   bool isInternetCalled = false;
   bool isLocalCalled = false;
+
 
   Future<void> initConnectivity() async {
     connectivitySubscription =
@@ -60,7 +82,8 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
       if (!isLocalCalled) getLocalCache();
     } else {
       log('- with internet');
-      if (!isInternetCalled) getFirebaseStorage();
+      if (!isInternetCalled)await getFirebaseStorage();
+      connectivitySubscription.cancel();
       isLocalCalled = false;
     }
   }
@@ -73,7 +96,7 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
     List<Audio> cachedAudios = cachedUrlsBox.values.toList();
     List<String> wordsOfMusics = wordsOfMusicsBox.values.toList();
 
-    ref.read(playerProvider.notifier).setSource(cachedAudios);
+    setSource(cachedAudios);
     ref.read(playerProvider.notifier).setWords(wordsOfMusics);
   }
 
@@ -129,12 +152,23 @@ class NetworkProvider extends StateNotifier<List<ConnectivityResult>> {
         // log('no words');
         words.add('No words');
       }
-      wordsOfMusicsBox.put(1, words.last);
+      
+      wordsOfMusicsBox.put(index, words.last);
 
       index++;
     }
-
+     
     ref.read(playerProvider.notifier).setWords(words);
-    ref.read(playerProvider.notifier).setSource(cachedAudios);
+    setSource(cachedAudios);
+  }
+  Future<void> setSource(List<Audio> audios) async {
+    
+   state=state.copyWith(isLoaded: false);
+
+    await player.setAudioSource(ConcatenatingAudioSource(
+        children:
+            audios.map((audio) => AudioSource.file(audio.path)).toList()));
+    state = state.copyWith(cachedAudios: audios);
+    state=state.copyWith(isLoaded: true);
   }
 }

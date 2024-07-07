@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:somni_app/model/model.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:somni_app/views/my_app.dart';
+import 'package:somni_app/views/splash_screen.dart';
 import 'utils/firebase_options.dart';
 import 'package:hive/hive.dart';
 
@@ -16,7 +15,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
-
+  
   Hive
     ..init(appDocumentDirectory.path)
     ..registerAdapter(AudioAdapter());
@@ -24,5 +23,5 @@ Future<void> main() async {
   cachedUrlsBox = await Hive.openBox('cachedPaths');
   wordsOfMusicsBox = await Hive.openBox('musicWords');
 
-  runApp(const ProviderScope(child: GetMaterialApp(home: MyApp())));
+  runApp(const ProviderScope(child:  SplashScreen()));
 }

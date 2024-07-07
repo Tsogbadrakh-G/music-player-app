@@ -1,7 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:somni_app/model/model.dart';
 
 final playerProvider =
     StateNotifierProvider<PlayerProvider, PlayerModel>((ref) {
@@ -11,31 +10,35 @@ final playerProvider =
 class PlayerModel {
   final bool rebuild;
   final bool isPlaying;
-  final List<Audio> cachedAudios;
+
   final List<String> words;
   final int selectedIndex;
-  PlayerModel(this.rebuild, this.isPlaying, this.cachedAudios, this.words,
-      this.selectedIndex);
+  final bool handleSeek;
+  PlayerModel(this.rebuild, this.isPlaying,  this.words,
+      this.selectedIndex, this.handleSeek);
 
   PlayerModel copyWith(
       {final rebuild,
       final isPlaying,
-      final cachedAudios,
+     
       final words,
-      final selectedIndex}) {
+      final selectedIndex,
+      final handleSeek,
+      }) {
     return PlayerModel(
       rebuild ?? this.rebuild,
       isPlaying ?? this.isPlaying,
-      cachedAudios ?? this.cachedAudios,
+      
       words ?? this.words,
       selectedIndex ?? this.selectedIndex,
+      handleSeek ?? this.handleSeek
     );
   }
 }
-
+ AudioPlayer player = AudioPlayer();
 class PlayerProvider extends StateNotifier<PlayerModel> {
-  AudioPlayer player = AudioPlayer();
-  PlayerProvider() : super(PlayerModel(false, false, [], [], 0));
+ 
+  PlayerProvider() : super(PlayerModel(false, false, [], 0,false));
 
   void rebuild() {
     state = state.copyWith(rebuild: !state.rebuild);
@@ -50,17 +53,7 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
     state = state.copyWith(words: words);
   }
 
-  Future<void> setSource(List<Audio> audios) async {
-    print('set source has started');
-    audios.forEach((element) {
-      print('path: ${element.path}');
-    });
-
-    await player.setAudioSource(ConcatenatingAudioSource(
-        children:
-            audios.map((audio) => AudioSource.file(audio.path)).toList()));
-    state = state.copyWith(cachedAudios: audios);
-  }
+  
 
   formatPosition(Duration duration) {
     int minutes = (duration.inSeconds / 60).floor();
@@ -91,10 +84,14 @@ class PlayerProvider extends StateNotifier<PlayerModel> {
   }
 
   Future<void> handleSeek(double val) async {
+     print('seek first');
     await player.seek(Duration(seconds: val.toInt()));
+    print('seek after');
+    state=state.copyWith(rebuild: !state.handleSeek);
   }
 
   void handleIsPlaying(bool val) {
+    
     state = state.copyWith(isPlaying: false);
     if (val) {
       player.play();

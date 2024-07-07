@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:somni_app/controller/player_controller.dart';
+import 'package:somni_app/controller/network_controller.dart';
 import 'package:somni_app/model/model.dart';
 import 'package:somni_app/views/song_list_item.dart';
 
@@ -40,7 +40,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final playerController = ref.read(playerProvider.notifier);
+    
+    final networkState= ref.read(networkProvider);
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -55,7 +56,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             setState(() {
               _result.clear();
             });
-            _search(value: value, songs: playerController.model.cachedAudios);
+            _search(value: value, songs: networkState.cachedAudios);
           },
         ),
         actions: [

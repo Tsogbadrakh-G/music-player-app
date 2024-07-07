@@ -1,29 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:somni_app/controller/network_controller.dart';
 import 'package:somni_app/views/my_app.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    callDelay(context);
+  Widget build(BuildContext context,WidgetRef ref) {
+    ref.read(networkProvider.notifier).initConnectivity();
+    //callDelay(context);
     return GetMaterialApp(
       home: Container(
         decoration: const BoxDecoration(color: Colors.white),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/icon/music_logo.jpg',
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+        child: const Center(
+          child: MyApp()
         ),
       ),
     );

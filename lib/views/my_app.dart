@@ -1,11 +1,10 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'dart:developer';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:somni_app/controller/network_controller.dart';
-import 'package:somni_app/controller/player_controller.dart';
 import 'package:somni_app/views/search_screen.dart';
 import 'package:somni_app/views/shimmer.dart';
 import 'package:somni_app/views/song_list_item.dart';
@@ -15,9 +14,9 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(networkProvider.notifier).initConnectivity();
-    final controllerState = ref.watch(playerProvider);
-
+    
+    final controllerState = ref.watch(networkProvider);
+  log('build my app');
     return PopScope(
       canPop: false,
       onPopInvoked: (bool val) {},
@@ -62,7 +61,7 @@ class MyApp extends ConsumerWidget {
                 ),
               ),
             ),
-            controllerState.cachedAudios.isEmpty
+            !controllerState.isLoaded
                 ? const ShimmerList()
                 : ListView.separated(
                     separatorBuilder: (context, index) {
