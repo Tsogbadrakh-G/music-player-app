@@ -20,30 +20,29 @@ final networkProvider =
     StateNotifierProvider<NetworkProvider, NetworkState>((ref) {
   return NetworkProvider(ref);
 });
-class NetworkState {
 
+class NetworkState {
   final bool isLoaded;
   final List<Audio> cachedAudios;
- final List<ConnectivityResult> connectivityResult;
+  final List<ConnectivityResult> connectivityResult;
   NetworkState(this.isLoaded, this.cachedAudios, this.connectivityResult);
 
-  NetworkState copyWith(
-      {
-      final isLoaded,
-      final cachedAudios,
-       final connectivityResult,     
-      }) {
+  NetworkState copyWith({
+    final isLoaded,
+    final cachedAudios,
+    final connectivityResult,
+  }) {
     return NetworkState(
-      
-      isLoaded?? this.isLoaded,
-      cachedAudios ?? this.cachedAudios,
-      connectivityResult ?? this.connectivityResult
-    );
+        isLoaded ?? this.isLoaded,
+        cachedAudios ?? this.cachedAudios,
+        connectivityResult ?? this.connectivityResult);
   }
 }
+
 class NetworkProvider extends StateNotifier<NetworkState> {
   final Ref ref;
-  NetworkProvider(this.ref) : super(NetworkState(false, [], [ConnectivityResult.none]));
+  NetworkProvider(this.ref)
+      : super(NetworkState(false, [], [ConnectivityResult.none]));
 
   final Connectivity connectivity = Connectivity();
   Dio dio = Dio();
@@ -51,7 +50,6 @@ class NetworkProvider extends StateNotifier<NetworkState> {
   late StreamSubscription<List<ConnectivityResult>> connectivitySubscription;
   bool isInternetCalled = false;
   bool isLocalCalled = false;
-
 
   Future<void> initConnectivity() async {
     connectivitySubscription =
@@ -82,8 +80,8 @@ class NetworkProvider extends StateNotifier<NetworkState> {
       if (!isLocalCalled) getLocalCache();
     } else {
       log('- with internet');
-      if (!isInternetCalled)await getFirebaseStorage();
-      
+      if (!isInternetCalled) await getFirebaseStorage();
+
       isLocalCalled = false;
     }
   }
@@ -141,34 +139,32 @@ class NetworkProvider extends StateNotifier<NetworkState> {
       cachedAudios.add(Audio(id: index, name: fileName, path: path ?? ''));
       cachedUrlsBox.put(index, cachedAudios.last);
       DataSnapshot? snapshot;
-      
-        snapshot = await rtdb.ref().child('$index').get();
-      
+
+      snapshot = await rtdb.ref().child('$index').get();
 
       if (snapshot.exists) {
-        //  log('words: ${snapshot.value.toString()}');
+        log('words: ${snapshot.value.toString()}');
         words.add(snapshot.value.toString());
       } else {
-        // log('no words');
         words.add('No words');
       }
-      
+
       wordsOfMusicsBox.put(index, words.last);
 
       index++;
     }
-     
+
     ref.read(playerProvider.notifier).setWords(words);
     setSource(cachedAudios);
   }
+
   Future<void> setSource(List<Audio> audios) async {
-    
-   state=state.copyWith(isLoaded: false);
+    state = state.copyWith(isLoaded: false);
 
     await player.setAudioSource(ConcatenatingAudioSource(
         children:
             audios.map((audio) => AudioSource.file(audio.path)).toList()));
     state = state.copyWith(cachedAudios: audios);
-    state=state.copyWith(isLoaded: true);
+    state = state.copyWith(isLoaded: true);
   }
 }

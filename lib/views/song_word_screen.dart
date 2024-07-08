@@ -6,22 +6,24 @@ import 'package:somni_app/controller/player_controller.dart';
 class SongWordScreen extends ConsumerWidget {
   const SongWordScreen({Key? key}) : super(key: key);
   String formatString(String input) {
-  
-    String formatString= input.split(RegExp(r'\s*-\s*')).join('\n');
-    
-    return formatString.replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
-      return '\n${match.group(0)}';
-    }).trim().
-    replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
-      return '';
-    }).trim();
+    String formatString = input.split(RegExp(r'\s*-\s*')).join('\n');
+
+    return formatString
+        .replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
+          return '\n${match.group(0)}';
+        })
+        .trim()
+        .replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
+          return '';
+        })
+        .trim();
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerController = ref.read(playerProvider.notifier);
-    final networkState= ref.read(networkProvider);
-    
+    final networkState = ref.read(networkProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -34,7 +36,7 @@ class SongWordScreen extends ConsumerWidget {
           child: SizedBox.expand(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: Text(formatString(playerController
                 .model.words[playerController.model.selectedIndex])),
           ),

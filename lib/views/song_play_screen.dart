@@ -27,39 +27,34 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
 
     _streamDuration = player.durationStream.listen((p) {
       duration = p ?? Duration.zero;
-
       playerController?.rebuild();
       return;
     });
     _streamPosition = player.positionStream.listen((p) {
       position = p;
       if (position.inSeconds == duration.inSeconds) {
-        log('kk');
-
         playerController?.handleIsPlaying(false);
         position = Duration.zero;
         player.pause();
-        player
-            .seek(position, index: playerController?.model.selectedIndex ?? 0);
+        player.seek(position,
+            index: playerController?.model.selectedIndex ?? 0);
         playerController?.rebuild();
       }
       playerController?.rebuild();
       return;
     });
-
-
   }
 
   @override
   Widget build(BuildContext context) {
     playerController = ref.read(playerProvider.notifier);
-final networkState= ref.read(networkProvider);
-log('song play build');
+    final networkState = ref.read(networkProvider);
+    log('song play build');
     ref.watch(playerProvider);
     return PopScope(
       onPopInvoked: (didPop) {
         if (didPop) {
-          playerController?.handleIsPlaying(false);
+          //playerController?.handleIsPlaying(false);
         }
       },
       child: GestureDetector(
@@ -100,11 +95,9 @@ log('song play build');
                 const SizedBox(height: 10.0),
                 Text(
                   networkState
-                          .cachedAudios[
-                              playerController?.model.selectedIndex ?? 0]
-                          .name
-                          .split('.')[0] 
-                      ,
+                      .cachedAudios[playerController?.model.selectedIndex ?? 0]
+                      .name
+                      .split('.')[0],
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -116,30 +109,24 @@ log('song play build');
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    
-                      Text(
-                        playerController?.formatPosition(position),
-                        style: const TextStyle(color: Colors.white),
+                    Text(
+                      playerController?.formatPosition(position),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: 260.0,
+                      child: Slider(
+                        min: 0.0,
+                        max: duration.inSeconds.toDouble(),
+                        value: position.inSeconds.toDouble(),
+                        onChanged: playerController?.handleSeek,
+                        activeColor: Colors.white,
                       ),
-                  
-                 
-                      SizedBox(
-                        width: 260.0,
-                        child: Slider(
-                          min: 0.0,
-                          max: duration.inSeconds.toDouble(),
-                          value: position.inSeconds.toDouble(),
-                          onChanged: playerController?.handleSeek,
-                          activeColor: Colors.white,
-                        ),
-                      ),
-                   
-                    
-                      Text(
-                        playerController?.formatPosition(duration),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                   
+                    ),
+                    Text(
+                      playerController?.formatPosition(duration),
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -167,8 +154,7 @@ log('song play build');
                                 index: (playerController?.model.selectedIndex ??
                                         1) -
                                     1);
-                            duration = player.duration ??
-                                Duration.zero;
+                            duration = player.duration ?? Duration.zero;
                             playerController?.handlSelectedIndex(
                                 (playerController?.model.selectedIndex ?? 1) -
                                     1);
@@ -220,8 +206,7 @@ log('song play build');
                       child: InkWell(
                         onTap: () async {
                           if ((playerController?.model.selectedIndex ?? 0) + 1 <
-                              (networkState.cachedAudios )
-                                  .length) {
+                              (networkState.cachedAudios).length) {
                             position = Duration.zero;
                             // await player.pause();
                             // playerController?.setPlayerState(false);
@@ -229,8 +214,7 @@ log('song play build');
                                 index: (playerController?.model.selectedIndex ??
                                         0) +
                                     1);
-                            duration = player.duration ??
-                                Duration.zero;
+                            duration = player.duration ?? Duration.zero;
                             playerController?.handlSelectedIndex(
                                 (playerController?.model.selectedIndex ?? 0) +
                                     1);
@@ -245,7 +229,7 @@ log('song play build');
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ],
