@@ -83,7 +83,7 @@ class NetworkProvider extends StateNotifier<NetworkState> {
     } else {
       log('- with internet');
       if (!isInternetCalled)await getFirebaseStorage();
-      connectivitySubscription.cancel();
+      
       isLocalCalled = false;
     }
   }

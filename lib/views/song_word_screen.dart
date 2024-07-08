@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:somni_app/controller/network_controller.dart';
@@ -8,14 +6,7 @@ import 'package:somni_app/controller/player_controller.dart';
 class SongWordScreen extends ConsumerWidget {
   const SongWordScreen({Key? key}) : super(key: key);
   String formatString(String input) {
-    
-    // String formatted = input.replaceAllMapped(RegExp(r'[А-ЯҮ]'), (Match match) {
-    //   return '\n${match.group(0)}';
-    // }).trim();
-    // String formatted1 =
-    //     input.replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
-    //   return '\n${match.group(0)}';
-    // }).trim();
+  
     String formatString= input.split(RegExp(r'\s*-\s*')).join('\n');
     
     return formatString.replaceAllMapped(RegExp(r'[\[\]]'), (Match match) {
@@ -30,7 +21,7 @@ class SongWordScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playerController = ref.read(playerProvider.notifier);
     final networkState= ref.read(networkProvider);
-    log('index: ${playerController.model.selectedIndex},each music item: ${playerController.model.words[playerController.model.selectedIndex]}');
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
