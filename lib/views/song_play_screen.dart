@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:somni_app/controller/network_controller.dart';
 import 'package:somni_app/controller/player_controller.dart';
+import 'package:somni_app/views/song_word_screen.dart';
 
 class PlayeAudioScreen extends ConsumerStatefulWidget {
   const PlayeAudioScreen({Key? key}) : super(key: key);
@@ -62,6 +64,31 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
           //Get.back();
         },
         child: Scaffold(
+            appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 95, 95, 96),
+          title:  Text(
+          networkState
+                      .cachedAudios[playerController?.model.selectedIndex ?? 0]
+                      .name
+                      .split('.')[0],
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.white),
+          ),
+          leading: const Icon(Icons.music_note, color: Colors.white,),
+          actions: [
+            IconButton(
+              onPressed: () => Get.to(
+                () => const SongWordScreen(),
+                duration: const Duration(milliseconds: 700),
+                transition: Transition.rightToLeft,
+              ),
+              icon: const Icon(
+                Icons.chrome_reader_mode_outlined,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
             body: Stack(
           children: [
             Container(

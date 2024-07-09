@@ -2,6 +2,7 @@
 import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:somni_app/controller/network_controller.dart';
@@ -25,9 +26,10 @@ class MyApp extends ConsumerWidget {
           backgroundColor: const Color.fromARGB(255, 95, 95, 96),
           title: const Text(
             "Уудам тал",
+            style: TextStyle(color: Colors.white),
             overflow: TextOverflow.ellipsis,
           ),
-          leading: const Icon(Icons.music_note),
+          leading: const Icon(Icons.music_note, color: Colors.white,),
           actions: [
             IconButton(
               onPressed: () => Get.to(
@@ -37,6 +39,7 @@ class MyApp extends ConsumerWidget {
               ),
               icon: const Icon(
                 Icons.search_rounded,
+                color: Colors.white
               ),
             ),
           ],

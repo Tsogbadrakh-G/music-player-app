@@ -36,7 +36,7 @@ class SongWordScreen extends ConsumerWidget {
           child: SizedBox.expand(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             child: Text(formatString(playerController
                 .model.words[playerController.model.selectedIndex])),
           ),
