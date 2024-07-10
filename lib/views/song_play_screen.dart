@@ -74,7 +74,11 @@ class _PlayeAudioScreen extends ConsumerState<PlayeAudioScreen> {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.white),
           ),
-          leading: const Icon(Icons.music_note, color: Colors.white,),
+          leading: IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+            ),
+          
           actions: [
             IconButton(
               onPressed: () => Get.to(
